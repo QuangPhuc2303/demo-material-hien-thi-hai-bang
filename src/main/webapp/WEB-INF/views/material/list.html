@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List Material</title>
+</head>
+<body>
+<a href="/create-material">Create new material</a>
+<h1>Material</h1>
+<table border="1">
+    <tr>
+        <td>Name:</td>
+        <td>ImportDate:</td>
+        <td>Description:</td>
+        <td>Price:</td>
+        <td>Quantity:</td>
+        <td>Image:</td>
+        <td>Edit:</td>
+        <td>Delete:</td>
+    </tr>
+    <th:block th:each="material : ${materials}">
+        <tr>
+            <td th:text="*{material.name}"></td>
+            <td th:text="*{material.importDate}"></td>
+            <td th:text="*{material.description}"></td>
+            <td th:text="*{material.price}"></td>
+            <td th:text="*{material.quantity}"></td>
+            <td><img th:src="${material.image}" style="width: 100px; height: 100px"></img></td>
+            <td><a th:href="@{/edit-material/__${material.id}__}">Edit</a></td>
+            <td><a th:href="@{/delete-material/__${material.id}__}">Delete</a></td>
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>
