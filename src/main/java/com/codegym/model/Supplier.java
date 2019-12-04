@@ -1,6 +1,7 @@
 package com.codegym.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "suppliers")
@@ -12,6 +13,9 @@ public class Supplier {
     private String name;
     private String description;
     private String address;
+
+    @OneToMany(mappedBy = "supplier")
+    private Set<Material> materials;
 
     public Supplier() {
     }
@@ -52,5 +56,13 @@ public class Supplier {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Set<Material> getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(Set<Material> materials) {
+        this.materials = materials;
     }
 }

@@ -1,14 +1,17 @@
 package com.codegym.controller;
 
 import com.codegym.model.Material;
+import com.codegym.model.Supplier;
 import com.codegym.service.MaterialService;
+import com.codegym.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Optional;
 
 @Controller
 public class MaterialController {
@@ -16,9 +19,22 @@ public class MaterialController {
     @Autowired
     private MaterialService materialService;
 
+    @Autowired
+    private SupplierService supplierService;
+
+    @ModelAttribute("suppliers")
+    public Iterable<Supplier> suppliers() {
+        return supplierService.findAll();
+    }
+
     @GetMapping("/materials")
-    public ModelAndView listMaterial() {
-        Iterable<Material> materials = materialService.findAll();
+    public ModelAndView listMaterial(@RequestParam("s") Optional<String> s, Pageable pageable) {
+        Page<Material> materials;
+        if (s.isPresent()) {
+            materials = materialService.findAllByNameContaining(s.get(), pageable);
+        } else {
+            materials = materialService.findAll(pageable);
+        }
         ModelAndView modelAndView = new ModelAndView("/material/list");
         modelAndView.addObject("materials", materials);
         return modelAndView;

@@ -1,9 +1,14 @@
 package com.codegym.service.impl;
 
 import com.codegym.model.Material;
+import com.codegym.model.Supplier;
 import com.codegym.repository.MaterialRepository;
 import com.codegym.service.MaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+
 
 public class MaterialServiceImpl implements MaterialService {
 
@@ -11,8 +16,8 @@ public class MaterialServiceImpl implements MaterialService {
     private MaterialRepository materialRepository;
 
     @Override
-    public Iterable<Material> findAll() {
-        return materialRepository.findAll();
+    public Page<Material> findAll(Pageable pageable) {
+        return materialRepository.findAll(pageable);
     }
 
     @Override
@@ -28,5 +33,15 @@ public class MaterialServiceImpl implements MaterialService {
     @Override
     public void remove(Long id) {
         materialRepository.delete(id);
+    }
+
+    @Override
+    public Iterable<Material> findAllBySupplier(Supplier supplier) {
+        return materialRepository.findAllBySupplier(supplier);
+    }
+
+    @Override
+    public Page<Material> findAllByNameContaining(String name, Pageable pageable) {
+        return materialRepository.findAllByNameContaining(name, pageable);
     }
 }

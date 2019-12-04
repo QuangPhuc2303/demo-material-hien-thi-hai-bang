@@ -1,6 +1,8 @@
 package com.codegym.controller;
 
+import com.codegym.model.Material;
 import com.codegym.model.Supplier;
+import com.codegym.service.MaterialService;
 import com.codegym.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,9 @@ public class SupplierController {
 
     @Autowired
     private SupplierService supplierService;
+
+    @Autowired
+    private MaterialService materialService;
 
     @GetMapping("/suppliers")
     public ModelAndView listSupplier() {
@@ -79,5 +84,20 @@ public class SupplierController {
     public String deleteSupplier(@ModelAttribute("supplier") Supplier supplier) {
         supplierService.remove(supplier.getId());
         return "redirect:suppliers";
+    }
+
+    @GetMapping("/view-supplier/{id}")
+    public ModelAndView viewSupplier(@PathVariable("id") Long id) {
+        Supplier supplier = supplierService.findById(id);
+        if (supplier == null) {
+            return new ModelAndView("/error.404");
+        }
+
+        Iterable<Material> materials = materialService.findAllBySupplier(supplier);
+
+        ModelAndView modelAndView = new ModelAndView("/supplier/view");
+        modelAndView.addObject("supplier", supplier);
+        modelAndView.addObject("materials", materials);
+        return modelAndView;
     }
 }

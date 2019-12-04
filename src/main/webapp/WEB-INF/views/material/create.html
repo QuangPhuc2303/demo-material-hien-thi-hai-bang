@@ -39,6 +39,14 @@
             <td><input type="text" th:field="*{image}"></td>
         </tr>
         <tr>
+            <td>Supplier</td>
+            <td>
+                <select th:field="*{supplier}">
+                    <option th:each="s : ${suppliers}" th:value="${s.id}" th:text="${s.name}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
             <td></td>
             <td><input type="submit" value="Create material"></td>
         </tr>

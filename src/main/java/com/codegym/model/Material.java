@@ -16,6 +16,10 @@ public class Material {
     private String quantity;
     private String image;
 
+   @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
+
     public Material() {
     }
 
@@ -82,5 +86,13 @@ public class Material {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 }

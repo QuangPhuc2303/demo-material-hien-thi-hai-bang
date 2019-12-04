@@ -40,6 +40,15 @@
             <td><input type="text" th:field="*{image}"></td>
         </tr>
         <tr>
+            <td>Supplier</td>
+            <td>
+                <select name="supplier">
+                    <option th:each="s : ${suppliers}" th:value="${s.id}" th:text="${s.name}"
+                            th:selected="(${s.id} == *{supplier.id})"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
             <td></td>
             <td><input type="submit" value="Update material"></td>
         </tr>
